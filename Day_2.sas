@@ -4,4 +4,8 @@ sheet="rentdata";
 getnames=yes;
 RUN;
 
-
+/* CSV Import */
+DATA proj;
+INFILE "/home/u64157272/company data.csv" DSD MISSOVER FIRSTOBS=2;
+INPUT Cusip$ fyear name$;
+RUN;
