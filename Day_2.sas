@@ -20,3 +20,7 @@ datalines;
 ;
 /* run; */
 proc print data=sample;run;
+
+/* Data Exports */
+proc export data=rent outfile="path" dbms=csv;
+run;
