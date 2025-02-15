@@ -18,3 +18,15 @@ RUN;
 PROC CORR data=crent;
 VAR age rental_rates;
 RUN;
+/* 
+REGRESSION MODEL */
+PROC IMPORT datafile="/home/u64157272/commercial rent.xlsx" dbms=xlsx out=commrent;
+RUN;
+
+PROC REG data=commrent;
+MODEL rental_rates=age;
+OUTPUT out=res RESIDUAL=resid Predicted=pred;
+RUN;
+
+PROC print DATA=res;
+RUN;
