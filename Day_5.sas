@@ -12,3 +12,9 @@ RUN;
 PROC MEANS data=rent MEAN MEDIAN STD P5 P95 MIN MAX;
 VAR rent;
 RUN;
+
+/* Correlation */
+
+PROC CORR data=crent;
+VAR age rental_rates;
+RUN;
