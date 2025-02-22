@@ -10,26 +10,59 @@ RUN;
 PROC IMPORT DATAFILE="/home/u64157272/sales.xlsx" DBMS=xlsx OUT=sales;
 RUN;
 
-PROC PRINT DATA=customers;
+PROC PRINT DATA=sales;
 RUN;
 
-/* Combine Customers and Sales tables */
-/* PROC SQL; */
-/* CREATE TABLE customer_sales AS */
-/* SELECT * */
-/* FROM customers */
-/* LEFT JOIN sales */
-/* ON customers.Customer_Name = sales.Customer_Name */
-/* ;QUIT; */
+PROC SQL;
+CREATE TABLE merged_data AS
+SELECT a.*, b.*, c.*
+FROM sales as a
+LEFT JOIN customers as b 
+ON a.customer_id = b.id
+LEFT JOIN products as c
+ON a.product_id = c.id
+;QUIT;
 
-PROC SORT DATA = sales OUT=sorted_data; BY Descending Profit;
+
+/* Top 5 golden customers */
+PROC PRINT DATA = merged_data;
 RUN;
 
-PROC PRINT DATA = sorted_data (OBS=5);
-VAR Customer_Name Profit;
-RUN;
+PROC SQL;
+CREATE TABLE per_customer AS
+SELECT customer_name, sum(profit) AS profit
+FROM merged_data
+GROUP BY customer_name
+ORDER BY profit descending
+;QUIT;
 
-/* PROC SQL; */
-/* SELECT Customer_Name, Profit */
-/* FROM sorted_data */
-/* ;QUIT; */
+PROC PRINT DATA = per_customer (OBS=5);
+RUN;
+/* Top 5 golden customers */
+
+
+/* Best seller product */
+PROC SQL;
+CREATE TABLE per_product AS
+SELECT product_name, sum(profit) AS profit
+FROM merged_data
+GROUP BY product_name
+ORDER by profit descending
+;QUIT;
+
+PROC PRINT DATA = per_product (OBS=5);
+RUN;
+/* Best seller product */
+
+
+/* Distribution */
+PROC SQL;
+CREATE TABLE pro_percentage AS
+SELECT province, sale, sale / sum(sale)
+;QUIT;
+
+
+
+
+
+
