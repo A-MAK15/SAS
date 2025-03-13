@@ -23,6 +23,7 @@ dbirth = input(birthday, date9.);
 format dbirth date9.;
 run;
 
+/* Getting Day before and Tomorrow */
 data test;
 today = today();
 format today date9.;
@@ -32,6 +33,7 @@ tmr = today + 1;
 format tmr date9.;
 RUN;
 
+/* Getting difference between two dates */
 data diffdate;
 birthday = '11Oct2017'd;
 newyear = '01Jan2018'd;
@@ -40,9 +42,19 @@ format newyear date9.;
 days_to_newyear = newyear - birthday;
 run;
 
+/* Getting Month before */
 data toppriority;
 gfbirthday = '05Jan1990'd;
 format gfbirthday date9.;
 prepare = intnx('month', gfbirthday, -1);
 format prepare date9.;
 run;
+
+/* Data Extraction */
+data test;
+schoolstarts = '25Nov2020'd;
+month = month(schoolstarts);
+day = day(schoolstarts);
+year = year(schoolstarts);
+format schoolstarts date9.;
+RUN;
