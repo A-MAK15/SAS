@@ -34,3 +34,29 @@ strip = '*' || strip(name) || '*';
 RUN;
 
 
+
+/* Compress Functions */
+data names;
+input name $char20.;
+datalines;
+Joe Smith
+  Rome  Smith
+  Alice Wonderland
+  Li    Wang
+;RUN;
+
+data sample;
+set names;
+compress = compress(name);
+compbl = compbl(name);
+RUN;
+
+data zip;
+set sashelp.zipcode;
+RUN;
+
+data zip2;
+set zip;
+ac = compress(areacode, '/97'); /* /97 will be removed in the areacode column */
+RUN;
+
